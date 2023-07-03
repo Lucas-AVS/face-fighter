@@ -1,0 +1,90 @@
+.commentContainer {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0 0 0;
+}
+
+.commentHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.deleteButton {
+    all: unset;
+    color: var(--gray-400);
+    size: 1.5rem;
+}
+
+.deleteButton:hover  {
+    color: var(--red-500);
+    cursor: pointer;
+}
+
+.commentBox {
+    border-radius: 9px;
+    background-color: var( --gray-700);
+    padding: 1rem;
+    margin: 0 0 1rem 0;
+}
+
+.commentContent {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.contentContainer {
+    margin-bottom: 0.5rem;
+}
+
+.authorName {
+    font-size: 14px;
+    line-height: 160%;
+    color: var(--gray-100);
+    font-weight: bold;
+}
+
+.timeStamp {
+    font-size: 12px;
+    line-height: 160%;
+    color: var(--gray-400);
+}
+
+.commentContent p {
+    font-size: 14px;
+    line-height: 160%;
+    color: var(--gray-300);
+}
+
+.likeDislikeSection {
+    display: flex;
+    gap: 1.75rem;
+}
+
+.likeDislikeSection a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--gray-400);
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.likeDislikeSection svg {
+    margin-right: 0.5rem;
+}
+
+.likeDislikeSection a span::before {
+    content: "\2022";
+    padding: 0 0.25rem;
+}
+
+.likeDislikeSection .dislike:hover {
+    cursor: pointer;
+    color: var(--red-500);
+}
+
+.likeDislikeSection .like:hover {
+    cursor: pointer;
+    color: var(--green-500);
+}

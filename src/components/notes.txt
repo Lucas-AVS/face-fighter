@@ -1,0 +1,14 @@
+Export/Import
+    Default export vs Named Export
+    Default = export default App (no final)
+    (no outro arquivo) import App from './App.jsx'
+    Named =  export antes do nome da function
+    (no outro arquivo) import { App } from './App.jsx';
+
+CSS module
+    Import
+        import + nome escolido (ex:HeaderCSS) + from 'local'
+        dentro do elemento HTML colocar: className={nome escolido.nome da classe criada} (ex:{HeaderCSS.btn})
+
+
+
