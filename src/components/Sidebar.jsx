@@ -10,7 +10,7 @@ export function Sidebar() {
             <div className={SidebarCSS.profile}>
                 <img 
                     className={SidebarCSS.avatar} 
-                    src="https://www.fightersgeneration.com/np2/char1/akuma-3rd.jpg" alt="" srcset="" />
+                    src="https://www.fightersgeneration.com/np2/char1/akuma-3rd.jpg" alt=""/>
                 <h1>Gouki</h1>
                 <p>Great Demon</p>
             </div>
