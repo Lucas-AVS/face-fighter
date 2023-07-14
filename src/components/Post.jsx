@@ -1,52 +1,135 @@
-import PostCSS from './Post.module.css';
+import { useState } from 'react';
 
-import { Comment } from './Comment.jsx'
+import { Comment } from './Comment.jsx';
 import { Avatar } from './Avatar';
 
-export function Post() {
-    return (
+import PostCSS from './Post.module.css'
+
+export function Post({ author, publishedAt, content }) {
+
+    // função para mostrar o tempo que passou desde a postagem
+    function timeSince(date) {
+
+        var seconds = Math.floor((new Date() - date) / 1000);
+  
+        var interval = seconds / 31536000;
+  
+       if (interval > 1) {
+      return Math.floor(interval) + " anos";
+        }
+        interval = seconds / 2592000;
+        if (interval > 1) {
+      return Math.floor(interval) + " meses";
+        }
+        interval = seconds / 86400;
+        if (interval > 1) {
+      return Math.floor(interval) + " dias";
+        }
+        interval = seconds / 3600;
+        if (interval > 1) {
+      return Math.floor(interval) + " horas";
+        }
+        interval = seconds / 60;
+        if (interval > 1) {
+      return Math.floor(interval) + " minutos";
+        }
+        return Math.floor(seconds) + " segundos";
+    }
+    const formattedDate = date => 
+        date.toLocaleString("pt-BR", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+        })
+
+    // comments -> Armazena a lista de comentarios
+    // setComments -> Atualiza a lista de comentarios
+    const [comments, setComments] = useState([
+        "HAHAHA"
+    ])
+    
+    // Armazena o novo comentario digitado pelo usuario
+    const [newCommentText, setNewCommentText] = useState('')
+
+    // Atualiza o estado de newCommentText quando o evento "onChange" ocorre
+    function commentChange() {
+        setNewCommentText(event.target.value)
+    }
+
+    // Adiciona o novo comentario a lista e redefine o texto com o chamado "onSubmit"
+    function sendComment() {    
+        event.preventDefault()
+
+        setComments([...comments, newCommentText])
+        setNewCommentText('')
+    }
+
+    // Função usada dentro da child Comment para deletar seus comentarios
+    function deleteComment(commentToDelete) {
+        const noDeletedComments = comments.filter(comment => {
+            return comment != commentToDelete;
+            
+        })
+        setComments(noDeletedComments) 
+    }
+
+    return (    
         <article className={PostCSS.post}>
             <header className={PostCSS.header}>
                 <div className={PostCSS.author}> 
                     <div>
-                        <Avatar src="https://www.fightersgeneration.com/np2/char1/akuma-3rd.jpg" alt="" srcset="" />
+                        <Avatar src={author.avatarUrl}/>
                     </div>
                     <div className={PostCSS.name}>
-                        <h1>Gouki</h1>
-                        <span>Great Demon</span>
+                        <h1>{author.name}</h1>
+                        <span>{author.title}</span>
                     </div>
                 </div>
-                <time dateTime='2023-06-23 20:13:30' title='data de púb'>
-                    Ontem
+                <time dateTime={publishedAt.toISOString()} title={formattedDate(publishedAt)}>
+                    {timeSince(publishedAt)} atrás
                 </time>
             </header>
             <div className={PostCSS.content}>
-                <p>🔥🥊 Despertando o Satsui no Hado! ⚡🔱</p>
-
-                <p>Preparado para encarar a fúria implacável do lendário Akuma? 💥✨ Como mestre das artes marciais, estou em busca do próximo desafio que possa testar minha força e determinação. Quem se atreve a enfrentar o poder das trevas que habita em meu interior?</p>
-
-                <p>Venha enfrentar o vórtice do caos e encare o verdadeiro significado da batalha! 🌪️💢 Com punhos incendiários e golpes devastadores, estou pronto para medir minha habilidade contra guerreiros corajosos.</p>
-
-                <p>Junte-se à luta e mostre sua coragem! Encontre-me no Templo do Satsui no Hado. Seja um desafiante digno e prove seu valor!</p>
-
-                <p>Quem ousará enfrentar o Senhor do Punho Demoníaco? ⚔️🔥</p>
-                
-                <a href="#">#Akuma</a> <a href="#">#StreetFighter</a> <a href="#">#DesafioAceito</a> <a href="#">#MestreDasArtesMarciais</a> <a href="#">#PunhoDemoníaco</a> <a href="#">#LendaDosJogosDeLuta</a>
-
-                <p>🎮💪🌟</p>
+                {content.map((line) => {
+                    if (line.type === 'paragraph') {
+                    return <p key={line.content}>
+                                {line.content}
+                            </p>;
+                    }
+                    if (line.type === 'link') {
+                    return <a 
+                            key={line.content} 
+                            href={line.content} 
+                            target="_blank">{line.content} </a>;
+                    }
+                })}
             </div>
-            <form className={PostCSS.commentForm}>
+            <form onSubmit={sendComment} className={PostCSS.commentForm}>
                 <strong>Compartilhe seu poder de análise</strong>
                 <textarea
+                    value={newCommentText}
+                    onChange={commentChange}
                     placeholder='Mostre sua sagacidade em palavras!'    
                 />
-                {/* fazer o botão desaparecer usando javascript */}
-                <button type='submit'>Comentar</button>
+
+                {/* caso não tenha texto dentro da textarea o botão será display none */}
+                {newCommentText !== '' ? (
+                    <button type="submit" className="button" style={{ display: 'block' }}>
+                        Comentar
+                    </button>
+                    ) : (
+                    <button type="submit" className="button" style={{ display: 'none' }}>
+                        Comentar
+                    </button>
+                )}
             </form>
 
             <div className={PostCSS.commentList}>
-                <Comment/>
-                <Comment/>
+                {comments.map(comment => {
+                    return <Comment key={comment} content={comment} deleteComment={deleteComment}/>
+                })}
             </div>
         </article>
     )
