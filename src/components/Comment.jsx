@@ -2,8 +2,25 @@ import { ThumbsDown, ThumbsUp, Trash } from 'phosphor-react';
 import { Avatar } from './Avatar';
 
 import styles from './Comment.module.css';
+import { useState } from 'react';
 
-export function Comment() {
+export function Comment({ content, deleteComment }) {
+    function handleDeleteComment() {
+        deleteComment(content)
+    }
+
+    const [likeCount, setLikeCount] = useState(0)
+    
+    function handleLikeButton() {
+        setLikeCount(likeCount + 1)
+    }
+
+    const [dislikeCount, setDislikeCount] = useState(0)
+
+    function handleDislikeButton() {
+        setDislikeCount(dislikeCount + 1)
+    }
+
     return (
         <div className={styles.commentContainer}>
             <Avatar
@@ -32,28 +49,27 @@ export function Comment() {
                         
                         </div>
                         
-                        <button className={styles.deleteButton}>
+                        <button onClick={handleDeleteComment} className={styles.deleteButton}>
                             <Trash size={24} />
                         </button>
                     </header>
                     
                     <div className={styles.commentContent}>
-                        <p>Akuma, você acha mesmo que seu punho demoníaco é ameaçador? Deixe-me rir! Enquanto você se perde nas trevas, eu sigo sendo o verdadeiro mestre das artes marciais.</p>
-                        <p>Venha, desafie-me se tiver coragem. Vou te mostrar o que é sentir o poder do Mishima Zaibatsu em uma surra que vai te deixar de joelhos! 💥🔥👊</p>
+                        <p>{content}</p>
                     </div>
                 </div>
 
                 <div className={styles.likeDislikeSection}>
-                        <a href='#' className={styles.like}> 
+                        <button className={styles.like} onClick={handleLikeButton}>
                             <ThumbsUp size={20}/> 
                             Aplaudir 
-                            <span>01</span>
-                        </a>
-                        <a href='#' className={styles.dislike}> 
-                            <ThumbsDown size={20}/> 
+                            <span>{likeCount}</span>
+                        </button>
+                        <button className={styles.dislike} onClick={handleDislikeButton}>
+                            <ThumbsUp size={20}/> 
                             Vaiar 
-                            <span>12</span>
-                        </a>
+                            <span>{dislikeCount}</span>
+                        </button>
                 </div>
 
             </div>
