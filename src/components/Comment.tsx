@@ -1,10 +1,15 @@
 import { ThumbsDown, ThumbsUp, Trash } from 'phosphor-react';
-import { Avatar } from './Avatar';
+import { Avatar } from './Avatar.tsx';
 
 import styles from './Comment.module.css';
 import { useState } from 'react';
 
-export function Comment({ content, deleteComment }) {
+interface CommentProps {
+    content: string;
+    deleteComment: (content: string) => void;
+  }
+
+export function Comment({ content, deleteComment }: CommentProps) {
     function handleDeleteComment() {
         deleteComment(content)
     }
@@ -66,7 +71,7 @@ export function Comment({ content, deleteComment }) {
                             <span>{likeCount}</span>
                         </button>
                         <button className={styles.dislike} onClick={handleDislikeButton}>
-                            <ThumbsUp size={20}/> 
+                            <ThumbsDown size={20}/> 
                             Vaiar 
                             <span>{dislikeCount}</span>
                         </button>

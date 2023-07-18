@@ -1,16 +1,29 @@
-import { useState } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 
-import { Comment } from './Comment.jsx';
-import { Avatar } from './Avatar';
+import { Comment } from './Comment.tsx';
+import { Avatar } from './Avatar.tsx';
 
 import PostCSS from './Post.module.css'
 
-export function Post({ author, publishedAt, content }) {
+interface PostProps {
+    author: {
+      avatarUrl: string;
+      name: string;
+      title: string
+    },
+    content: {
+      type: 'paragraph' | 'link';
+      content: string
+    }[],
+    publishedAt: Date
+  }
+  
+export function Post({ author, publishedAt, content }: PostProps) {
 
     // função para mostrar o tempo que passou desde a postagem
-    function timeSince(date) {
+    function timeSince(date: Date) {
 
-        var seconds = Math.floor((new Date() - date) / 1000);
+        var seconds: number = Math.floor((new Date().getTime() - date.getTime()) / 1000);
   
         var interval = seconds / 31536000;
   
@@ -35,7 +48,7 @@ export function Post({ author, publishedAt, content }) {
         }
         return Math.floor(seconds) + " segundos";
     }
-    const formattedDate = date => 
+    const formattedDate = (date: Date) => 
         date.toLocaleString("pt-BR", {
         day: "numeric",
         month: "short",
@@ -54,12 +67,12 @@ export function Post({ author, publishedAt, content }) {
     const [newCommentText, setNewCommentText] = useState('')
 
     // Atualiza o estado de newCommentText quando o evento "onChange" ocorre
-    function commentChange() {
+    function commentChange(event: ChangeEvent<HTMLTextAreaElement>) {
         setNewCommentText(event.target.value)
     }
 
     // Adiciona o novo comentario a lista e redefine o texto com o chamado "onSubmit"
-    function sendComment() {    
+    function sendComment(event: FormEvent) {    
         event.preventDefault()
 
         setComments([...comments, newCommentText])
@@ -67,7 +80,7 @@ export function Post({ author, publishedAt, content }) {
     }
 
     // Função usada dentro da child Comment para deletar seus comentarios
-    function deleteComment(commentToDelete) {
+    function deleteComment(commentToDelete: string) {
         const noDeletedComments = comments.filter(comment => {
             return comment != commentToDelete;
             

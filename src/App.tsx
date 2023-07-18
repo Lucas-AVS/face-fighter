@@ -1,6 +1,6 @@
-import { Post } from './components/Post.jsx';
-import { Header } from './components/Header.jsx';
-import { Sidebar } from './components/Sidebar.jsx';
+import { Post } from './components/Post.tsx';
+import { Header } from './components/Header.tsx';
+import { Sidebar } from './components/Sidebar.tsx';
 
 import './global.css'
 import AppCSS from './App.module.css';
@@ -46,9 +46,6 @@ const post = [
   },
 ];
 
-
-
-
 export function App() {
   return (
    <div>
@@ -61,7 +58,7 @@ export function App() {
             key={post.id}
             author={post.author}
             publishedAt={post.publishedAt}
-            content={post.content}
+            content={post.content as []}
           />
         )}
       </main>
