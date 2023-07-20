@@ -5,20 +5,26 @@ import { Avatar } from './Avatar.tsx';
 
 import PostCSS from './Post.module.css'
 
-interface PostProps {
+export  interface PostType {
+    id: number,
     author: {
-      avatarUrl: string;
-      name: string;
-      title: string
+        coverUrl: string,
+        avatarUrl: string,
+        name: string,
+        title: string
     },
     content: {
-      type: 'paragraph' | 'link';
-      content: string
+        type: 'paragraph' | 'link';
+        content: string
     }[],
     publishedAt: Date
-  }
+}
   
-export function Post({ author, publishedAt, content }: PostProps) {
+interface PostProps {
+    post: PostType,
+}
+
+export function Post({ post }: PostProps) {
 
     // função para mostrar o tempo que passou desde a postagem
     function timeSince(date: Date) {
@@ -93,19 +99,19 @@ export function Post({ author, publishedAt, content }: PostProps) {
             <header className={PostCSS.header}>
                 <div className={PostCSS.author}> 
                     <div>
-                        <Avatar src={author.avatarUrl}/>
+                        <Avatar src={post.author.avatarUrl}/>
                     </div>
                     <div className={PostCSS.name}>
-                        <h1>{author.name}</h1>
-                        <span>{author.title}</span>
+                        <h1>{post.author.name}</h1>
+                        <span>{post.author.title}</span>
                     </div>
                 </div>
-                <time dateTime={publishedAt.toISOString()} title={formattedDate(publishedAt)}>
-                    {timeSince(publishedAt)} atrás
+                <time dateTime={post.publishedAt.toISOString()} title={formattedDate(post.publishedAt)}>
+                    {timeSince(post.publishedAt)} atrás
                 </time>
             </header>
             <div className={PostCSS.content}>
-                {content.map((line) => {
+                {post.content.map((line) => {
                     if (line.type === 'paragraph') {
                     return <p key={line.content}>
                                 {line.content}
