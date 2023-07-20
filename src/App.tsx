@@ -1,11 +1,11 @@
-import { Post } from './components/Post.tsx';
+import { Post, PostType } from './components/Post.tsx';
 import { Header } from './components/Header.tsx';
 import { Sidebar } from './components/Sidebar.tsx';
 
 import './global.css'
 import AppCSS from './App.module.css';
 
-const post = [
+const post: PostType[] = [
   {
     id: 1,
     author: {
@@ -56,9 +56,7 @@ export function App() {
         {post.map(post => 
           <Post
             key={post.id}
-            author={post.author}
-            publishedAt={post.publishedAt}
-            content={post.content as []}
+            post={post}
           />
         )}
       </main>
